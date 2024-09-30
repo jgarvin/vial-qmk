@@ -1,4 +1,7 @@
 #include <stdint.h>
+#include "keycodes.h"
+#include "quantum/quantum_keycodes.h"
+#include "quantum/action.h"
 
 uint8_t combo_ref_from_layer(uint8_t layer) {
     // for the wm management layers, we want the combo layer to be
