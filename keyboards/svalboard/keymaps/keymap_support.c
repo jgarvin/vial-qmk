@@ -187,10 +187,10 @@ void check_layer_67(void) {
 bool in_mod_tap = false;
 int8_t in_mod_tap_layer = -1;
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
-    
+
     // Abort additional processing if userspace code did
     if (!process_record_user(keycode, record)) { return false;}
-    
+
     if (!global_saved_values.disable_achordion && !process_achordion(keycode, record)) { return false; }
 
     // We are in a mod tap, with a KC_TRANSPARENT, lets make it transparent...
