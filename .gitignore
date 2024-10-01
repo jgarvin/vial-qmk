@@ -115,3 +115,11 @@ compile_commands.json
 .clangd/
 .cache/
 keyboards/svalboard/sweep_keymap.yaml
+
+# ccls
+.ccls-cache
+
+# custom
+.projectile
+bld_scripts/
+run_scripts/
