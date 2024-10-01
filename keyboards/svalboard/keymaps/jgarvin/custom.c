@@ -31,14 +31,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     print("===============================================\n");
-    printf("pressed %d\n", pressed);
     printf("keycode %d\n", keycode);
     printf("record->event.pressed %d\n", record->event.pressed);
-    printf("anything_else_pressed_while_holding %d\n", anything_else_pressed_while_holding);
+    printf("old_anything_else_pressed_while_holding %d\n", anything_else_pressed_while_holding);
     bool old_pressed = pressed;
+    printf("old_pressed %d\n", pressed);
     if(keycode == LT3_SCROLL_LEFT_TOGGLE)
     {
         pressed = record->event.pressed;
+        printf("pressed %d\n", pressed);
         if(old_pressed)
         {
             if(!record->event.pressed)
@@ -47,6 +48,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 {
                     print("layer 3 off\n");
                     anything_else_pressed_while_holding = false;
+                    printf("anything_else_pressed_while_holding %d\n", anything_else_pressed_while_holding);
                     layer_off(3);
                 }
                 else
@@ -54,8 +56,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     print("tapping left scroll toggle\n");
                     left_scroll_record         = *record;
                     left_scroll_record.keycode = SV_LEFT_SCROLL_TOGGLE;
-                    left_scroll_record.event.pressed = true;
+                     left_scroll_record.event.pressed = true;
                     recursing = true;
+                    print("recursing to allow through other key while this key is held")
                     process_record(&left_scroll_record);
                     recursing = false;
                     left_scroll_record.event.pressed = false;
@@ -69,7 +72,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         print("layer 3 on\n");
         layer_on(3);
         anything_else_pressed_while_holding = true;
+        printf("anything_else_pressed_while_holding %d\n", anything_else_pressed_while_holding);
         recursing = true;
+        print("recursing to allow through other key while this key is held");
         process_record(record);
         recursing = false;
         return false;
