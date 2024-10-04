@@ -82,7 +82,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                         print("layer 3 off\n");
                         qt->anything_else_pressed_while_holding = false;
                         printf("anything_else_pressed_while_holding %d\n", qt->anything_else_pressed_while_holding);
-                        layer_off(3);
+                        layer_off(qt->layer);
                     }
                     else
                     {
@@ -104,7 +104,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         else if(old_pressed && record->event.pressed && !qt->anything_else_pressed_while_holding)
         {
             print("layer 3 on\n");
-            layer_on(3);
+            layer_on(qt->layer);
             qt->anything_else_pressed_while_holding = true;
             printf("anything_else_pressed_while_holding %d\n", qt->anything_else_pressed_while_holding);
             print("recursing to allow through other key while this key is held");
