@@ -38,15 +38,15 @@ quicktap_t quicktaps[2];
 // for now using pre init since the sval keymap.c uses post init
 void keyboard_pre_init_user(void)
 {
-    quicktaps[0].trigger_keycode = LT3_SCROLL_LEFT_TOGGLE;
+    quicktaps[0].trigger_keycode = LT7_SCROLL_LEFT_TOGGLE;
     quicktaps[0].standalone_tap_keycode = SV_LEFT_SCROLL_TOGGLE;
-    quicktaps[0].layer = 3;
-    quicktaps[1].trigger_keycode = LT4_SCROLL_RIGHT_TOGGLE;
+    quicktaps[0].layer = 7;
+    quicktaps[1].trigger_keycode = LT3_SCROLL_RIGHT_TOGGLE;
     quicktaps[1].standalone_tap_keycode = SV_RIGHT_SCROLL_TOGGLE;
-    quicktaps[1].layer = 4;
+    quicktaps[1].layer = 3;
 
-    printf("LT3_SCROLL_LEFT_TOGGLE keycode: %04x\n", LT3_SCROLL_LEFT_TOGGLE);
-    printf("LT4_SCROLL_RIGHT_TOGGLE keycode: %04x\n", LT4_SCROLL_RIGHT_TOGGLE);
+    printf("LT7_SCROLL_LEFT_TOGGLE keycode: %04x\n", LT7_SCROLL_LEFT_TOGGLE);
+    printf("LT3_SCROLL_RIGHT_TOGGLE keycode: %04x\n", LT3_SCROLL_RIGHT_TOGGLE);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -79,10 +79,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 {
                     if(qt->anything_else_pressed_while_holding)
                     {
-                        print("layer 3 off\n");
+                        printf("layer %d off\n", qt->layer);
                         qt->anything_else_pressed_while_holding = false;
                         printf("anything_else_pressed_while_holding %d\n", qt->anything_else_pressed_while_holding);
+                        recursing = true;
+                        process_record(record);
+                        recursing = false;
                         layer_off(qt->layer);
+                        return false;
                     }
                     else
                     {
@@ -103,7 +107,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         else if(old_pressed && record->event.pressed && !qt->anything_else_pressed_while_holding)
         {
-            print("layer 3 on\n");
+            printf("layer %d on\n", qt->layer);
             layer_on(qt->layer);
             qt->anything_else_pressed_while_holding = true;
             printf("anything_else_pressed_while_holding %d\n", qt->anything_else_pressed_while_holding);
